@@ -1,0 +1,42 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group = 'org.mikeb'
+version = '1.0.1-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+dependencies {
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+}
+
+gradlePlugin {
+    plugins {
+        sourceVersion {
+            id = 'org.mikeb.source-version'
+            displayName = 'Maintain Build Version'
+            description = 'Updates property in a project file with the current project build version'
+            implementationClass = 'org.mikeb.sourceversion.SourceVersionPlugin'
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
